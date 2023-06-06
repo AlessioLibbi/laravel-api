@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreProjectRequest;
+use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ProjectController extends Controller
 {
@@ -35,15 +38,17 @@ class ProjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProjectRequest $request)
     {
-        $data = $request->all();
-        $project = new Project();
-        $project->title = $data['title'];
-        $project->slug = $data['slug'];
-        $project->description = $data['description'];
-
-        $project->save();
+        // $data = $request->all();
+        // $project = new Project();
+        // $project->title = $data['title'];
+        // $project->slug = $data['slug'];
+        // $project->description = $data['description'];
+        // $project->save();
+        $data = $request->validated();
+        $data['slug'] = Str::slug($data['title']);
+        $project = Project::create($data);
         return redirect()->route('admin.projects.index');
     }
 
@@ -76,11 +81,12 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Project $project)
+    public function update(UpdateProjectRequest $request, Project $project)
     {
-        $data = $request->all();
+        $data = $request->validated();
+        $data['slug'] = Str::slug($data['title']);
         $project->update($data);
-        return redirect()->route('admin.projects.index');
+        return redirect()->route('admin.projects.index')->with('message', 'Ecco il dato aggiornato');
     }
 
     /**
@@ -91,6 +97,7 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $project->delete();
+        return redirect()->route('admin.projects.index')->with('message', 'dato eliminato con successo');
     }
 }
