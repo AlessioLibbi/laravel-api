@@ -28,6 +28,12 @@
                     @endforeach
                 </select>
             </div>
+            <div class="btn-group" role="group" >
+                @foreach ($technologies as $technology)  
+                <input type="checkbox" class="btn-check" name="technology_id[]" value="{{$technology->id}}" id="{{$technology->name}}" autocomplete="off">
+                <label class="btn btn-outline-primary" for="{{$technology->name}}">{{$technology->name}}</label>
+                @endforeach
+            </div>
 
             <div class="form-group my-5 mx-auto w-50">
                 <label for="description">Inserisci descrizione</label>

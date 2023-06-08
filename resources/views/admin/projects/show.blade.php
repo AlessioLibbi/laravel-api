@@ -4,8 +4,12 @@
 <h1 class="text-center">{{ $project->title }}</h1>
     <div class="text-end">
         {{ $project->slug }}
-       
     </div>
+    <span>Le tecnologie utilizzate:</span>
+    @foreach ($project->technologies as $technology)
+        <span class="btn btn-primary">{{$technology->name}}</span>
+    @endforeach
+
     @if ($project->type)
         <h3><span class="tiping my-4">Tipologia:</span> {{ $project->type?->name }}</h3>
     @else

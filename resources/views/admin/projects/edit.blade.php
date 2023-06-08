@@ -23,7 +23,13 @@
                         <option class="text-center" @selected(old('type_id') == $type->id) value="{{ $type->id }}">{{ $type->name }}</option>
                     @endforeach
                 </select>
-            </div>
+        </div>
+        <div class="btn-group" role="group" >
+            @foreach ($technologies as $technology)  
+            <input type="checkbox" class="btn-check" name="technology_id[]" value="{{$technology->id}}" id="{{$technology->name}}" autocomplete="off">
+            <label class="btn btn-outline-primary" for="{{$technology->name}}">{{$technology->name}}</label>
+            @endforeach
+        </div>
         <div class="mb-3">
             <label for="description" class="form-label">Descrizione</label>
             <textarea class="form-control" id="description" rows="3" name="description">{{ old('description', $project->description) }}</textarea>
