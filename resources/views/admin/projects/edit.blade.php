@@ -15,6 +15,15 @@
             @enderror
 
         </div>
+        <div class="form-group w-25 mx-auto my-5 ">
+                <label for="type">Inserisci la tipologia</label>
+                <select class="form-select w-50 mx-auto" id="type" name="type_id">
+                    <option value=""></option>
+                    @foreach ($types as $type)
+                        <option class="text-center" @selected(old('type_id') == $type->id) value="{{ $type->id }}">{{ $type->name }}</option>
+                    @endforeach
+                </select>
+            </div>
         <div class="mb-3">
             <label for="description" class="form-label">Descrizione</label>
             <textarea class="form-control" id="description" rows="3" name="description">{{ old('description', $project->description) }}</textarea>

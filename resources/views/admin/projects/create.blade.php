@@ -1,24 +1,43 @@
 @extends('layouts.admin')
 
 @section('content')
-    <h2>Crea il project</h2>
+    <div class="container text-center">
+        <h1 class="my-3">Inserisci il tuo project : </h1>
 
 
-    <form method="POST" action="{{ route('admin.projects.store') }}">
-        @csrf
-        <div class="mb-3">
-            <label for="title" class="form-label">Titolo</label>
-            <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" value="{{ old('title') }}">
-            @error('title')
-                <h2 class="invalid-feedback">{{$message}}</h2>
-            @enderror
+        <form action="{{ route('admin.projects.store') }}" method="POST">
+            @csrf
 
-        </div>
-        <div class="mb-3">
-            <label for="description" class="form-label">Descrizione</label>
-            <textarea class="form-control" id="description" rows="3" name="description">{{ old('description') }}</textarea>
-        </div>
-        <button class="btn btn-primary" type="submit">Invia</button>
-        <a href="{{route('admin.projects.index')}}" class="btn btn-warning" >Annulla</a>
-    </form>
+            <div class="form-group w-75 mx-auto my-5 ">
+                <label for="title">Inserisci titolo</label>
+                <input type="text" name="title"
+                    class="form-control mx-auto my-3 w-50 @error('title') is-invalid @enderror" id="title"
+                    placeholder="Inserisci titolo" value="{{ old('title') }}">
+                @error('title')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+            <div class="form-group w-25 mx-auto my-5 ">
+                <label for="type">Inserisci la tipologia</label>
+                <select class="form-select w-50 mx-auto" id="type" name="type_id">
+                    <option value=""></option>
+                    @foreach ($types as $type)
+                        <option class="text-center" @selected(old('type_id') == $type->id) value="{{ $type->id }}">{{ $type->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group my-5 mx-auto w-50">
+                <label for="description">Inserisci descrizione</label>
+                <textarea name="description" id="description"class="form-control" cols="30" rows="10">{{ old('description') }}</textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a class="btn btn-success" href="{{ route('admin.projects.index') }}">Ritorna nella lista</a>
+
+        </form>
+
+    </div>
 @endsection

@@ -42,12 +42,7 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        // $data = $request->all();
-        // $project = new Project();
-        // $project->title = $data['title'];
-        // $project->slug = $data['slug'];
-        // $project->description = $data['description'];
-        // $project->save();
+
         $data = $request->validated();
         $data['slug'] = Str::slug($data['title']);
         $project = Project::create($data);
