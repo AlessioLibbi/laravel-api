@@ -88,7 +88,12 @@ class ProjectController extends Controller
         $data = $request->validated();
         $data['slug'] = Str::slug($data['title']);
         $project->update($data);
-        $project->technologies()->attach($data['technology_id']);
+        if ($request->has('technologies')) {
+            $project->technologies()->sync($request->technologies); //sync significa che se ci sono tecnologie le salva nella tabella ponte 
+        } else {
+            $project->technologies()->detach(); //detach significa che se non ci sono tecnologie le cancella dalla tabella ponte 
+        }
+
         return redirect()->route('admin.projects.index')->with('message', 'Ecco il dato aggiornato');
     }
 
